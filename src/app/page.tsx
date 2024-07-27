@@ -37,7 +37,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import PaginationTab from "@/components/PaginationTab";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API;
@@ -112,13 +111,12 @@ export default function Home() {
 		[]
 	);
 
+	/* eslint-disable react-hooks/exhaustive-deps*/
 	useEffect(() => {
 		if (data?.data?.data && !isLoading && !isRefetching) {
 			setFetchedData(data?.data?.data);
 		}
 	}, [fetchedData, isLoading, isRefetching]);
-
-	console.log(data?.data);
 
 	return (
 		<main className="w-full bg-gray-50 min-h-screen relative">
@@ -273,7 +271,7 @@ export default function Home() {
 								</SelectTrigger>
 								<SelectContent>
 									{dateFilterOptions?.map((date) => (
-										<SelectItem value={date?.value}>
+										<SelectItem key={date?.value} value={date?.value}>
 											{date?.label}
 										</SelectItem>
 									))}
