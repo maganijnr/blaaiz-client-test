@@ -147,6 +147,7 @@ export default function Home() {
 						{selectedFilters?.currencyFilters?.length !== 0 &&
 							selectedFilters?.currencyFilters?.map((item) => (
 								<SelectedFilter
+									key={item}
 									label={item}
 									handleOnclick={() => {
 										handleCheckboxChange("currencyFilters", item);
@@ -156,6 +157,7 @@ export default function Home() {
 						{selectedFilters?.typeFilters?.length !== 0 &&
 							selectedFilters?.typeFilters?.map((item) => (
 								<SelectedFilter
+									key={item}
 									label={item}
 									handleOnclick={() => {
 										handleCheckboxChange("typeFilters", item);
@@ -165,6 +167,7 @@ export default function Home() {
 						{selectedFilters?.statusFilters?.length !== 0 &&
 							selectedFilters?.statusFilters?.map((item) => (
 								<SelectedFilter
+									key={item}
 									label={item}
 									handleOnclick={() => {
 										handleCheckboxChange("statusFilters", item);
