@@ -28,9 +28,11 @@ const PaginationTab: FC<{
 			>
 				Previous
 			</Button>
-			<div>
-				Page {metaData?.currentPage} / {metaData?.totalPages}
-			</div>
+			{metaData?.totalPages && (
+				<div>
+					Page {metaData?.currentPage} / {metaData?.totalPages}
+				</div>
+			)}
 			<Button
 				className="bg-[#7e89c8] hover:bg-[#7e89c8]/90 disabled:bg-[#7e89c8]/50"
 				onClick={() => {

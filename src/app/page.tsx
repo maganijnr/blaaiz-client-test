@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import PaginationTab from "@/components/PaginationTab";
+import SelectedFilter from "@/components/SelectedFilter";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API;
 export default function Home() {
@@ -95,8 +96,13 @@ export default function Home() {
 		},
 	});
 
+	const resetCurrentPage = () => {
+		setCurrentPage(1);
+	};
+
 	const handleCheckboxChange = useCallback(
 		(filterType: keyof CheckboxFilters, id: string) => {
+			setCurrentPage(1);
 			setSelectedFilters((prevState) => {
 				const updatedFilters = prevState[filterType].includes(id)
 					? prevState[filterType].filter((item) => item !== id)
@@ -128,6 +134,89 @@ export default function Home() {
 						isOpen={isOpen}
 						setIsOpen={setIsOpen}
 					/>
+					<div className="w-full mt-5 flex flex-wrap gap-1">
+						{search && (
+							<SelectedFilter
+								label={search}
+								handleOnclick={() => {
+									setSearch("");
+									resetCurrentPage();
+								}}
+							/>
+						)}
+						{selectedFilters?.currencyFilters?.length !== 0 &&
+							selectedFilters?.currencyFilters?.map((item) => (
+								<SelectedFilter
+									label={item}
+									handleOnclick={() => {
+										handleCheckboxChange("currencyFilters", item);
+									}}
+								/>
+							))}
+						{selectedFilters?.typeFilters?.length !== 0 &&
+							selectedFilters?.typeFilters?.map((item) => (
+								<SelectedFilter
+									label={item}
+									handleOnclick={() => {
+										handleCheckboxChange("typeFilters", item);
+									}}
+								/>
+							))}
+						{selectedFilters?.statusFilters?.length !== 0 &&
+							selectedFilters?.statusFilters?.map((item) => (
+								<SelectedFilter
+									label={item}
+									handleOnclick={() => {
+										handleCheckboxChange("statusFilters", item);
+									}}
+								/>
+							))}
+						{dateFilter && (
+							<SelectedFilter
+								label={dateFilter}
+								handleOnclick={() => {
+									setDateFilter("");
+									resetCurrentPage();
+								}}
+							/>
+						)}
+						{minAmount && (
+							<SelectedFilter
+								label={minAmount}
+								handleOnclick={() => {
+									setMinAmount("");
+									resetCurrentPage();
+								}}
+							/>
+						)}
+						{maxAmount && (
+							<SelectedFilter
+								label={maxAmount}
+								handleOnclick={() => {
+									setMaxAmount("");
+									resetCurrentPage();
+								}}
+							/>
+						)}
+						{minFee && (
+							<SelectedFilter
+								label={minFee}
+								handleOnclick={() => {
+									setMinFee("");
+									resetCurrentPage();
+								}}
+							/>
+						)}
+						{maxFee && (
+							<SelectedFilter
+								label={maxFee}
+								handleOnclick={() => {
+									setMaxFee("");
+									resetCurrentPage();
+								}}
+							/>
+						)}
+					</div>
 					<TransactionTable
 						data={fetchedData}
 						isLoading={isLoading}
@@ -148,14 +237,17 @@ export default function Home() {
 					}}
 				>
 					<SheetContent className="overflow-y-scroll">
-						<SheetHeader>
+						<SheetHeader className="text-left">
 							<SheetTitle>Filter data by:</SheetTitle>
 						</SheetHeader>
 
 						<div className="w-full flex flex-col mt-5 gap-5">
 							<Input
 								value={search}
-								onChange={(e) => setSearch(e.target.value)}
+								onChange={(e) => {
+									setSearch(e.target.value);
+									resetCurrentPage();
+								}}
 								placeholder="Search by name"
 								className="h-12"
 							/>
@@ -264,7 +356,11 @@ export default function Home() {
 										| "Last 3 months"
 										| "Last 1 year"
 										| "Last 2 years"
-								) => setDateFilter(value)}
+								) => {
+									setDateFilter(value);
+									resetCurrentPage();
+								}}
+								defaultValue={dateFilter}
 							>
 								<SelectTrigger className="w-full">
 									<SelectValue placeholder="Select date" />
@@ -279,41 +375,53 @@ export default function Home() {
 							</Select>
 
 							<div className="flex flex-col md:flex-row gap-5 items-center justify-between">
-								<div className="w-full max-w-[150px]">
+								<div className="w-full md:max-w-[150px]">
 									<Label>Min amount</Label>
 									<Input
 										placeholder="0"
 										value={minAmount}
-										onChange={(e) => setMinAmount(e.target.value)}
+										onChange={(e) => {
+											setMinAmount(e.target.value);
+											resetCurrentPage();
+										}}
 									/>
 								</div>
 
-								<div className="w-full max-w-[150px]">
+								<div className="w-full md:max-w-[150px]">
 									<Label>Max amount</Label>
 									<Input
 										placeholder="100,000"
 										value={maxAmount}
-										onChange={(e) => setMaxAmount(e.target.value)}
+										onChange={(e) => {
+											setMaxAmount(e.target.value);
+											resetCurrentPage();
+										}}
 									/>
 								</div>
 							</div>
 
 							<div className="flex flex-col md:flex-row gap-5 items-center justify-between">
-								<div className="w-full max-w-[150px]">
+								<div className="w-full md:max-w-[150px]">
 									<Label>Min fee</Label>
 									<Input
 										placeholder="0"
 										value={minFee}
-										onChange={(e) => setMinFee(e.target.value)}
+										onChange={(e) => {
+											setMinFee(e.target.value);
+											resetCurrentPage();
+										}}
 									/>
 								</div>
 
-								<div className="w-full max-w-[150px]">
+								<div className="w-full md:max-w-[150px]">
 									<Label>Max fee</Label>
 									<Input
 										placeholder="10"
 										value={maxFee}
-										onChange={(e) => setMaxFee(e.target.value)}
+										onChange={(e) => {
+											setMaxFee(e.target.value);
+											resetCurrentPage();
+										}}
 									/>
 								</div>
 							</div>

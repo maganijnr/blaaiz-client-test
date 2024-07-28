@@ -15,6 +15,8 @@ import { Copy } from "lucide-react";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
 import { InfinitySpin } from "react-loader-spinner";
 import { format } from "date-fns";
+import Image from "next/image";
+import { EmptySearch } from "../../public";
 
 const TransactionTable: FC<{
 	data: TransactionType[];
@@ -63,11 +65,11 @@ const TransactionTable: FC<{
 						<TableHead className="max-w-[90px] min-w-[70px]">
 							Currency
 						</TableHead>
-						<TableHead className="max-w-[70px] min-w-[70px]">
+						<TableHead className="max-w-[120px] min-w-[120px]">
 							Amount
 						</TableHead>
 						<TableHead className="max-w-[100px] min-w-[100px]">
-							Transaction Fee
+							Tax Fee
 						</TableHead>
 
 						<TableHead className="max-w-[90px] min-w-[70px]">
@@ -159,7 +161,9 @@ const TransactionTable: FC<{
 			</Table>
 			{data?.length === 0 && !isLoading && !isRefetching && (
 				<div className="min-h-[50dvh] w-full flex items-center justify-center rounded-b-lg">
-					Empty
+					<div className="w-[250px] max-w-[300px] h-[250px] max-h-[300px] relative">
+						<Image src={EmptySearch} alt="icon" layout="fill" />
+					</div>
 				</div>
 			)}
 
